@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <style>
+        #container{
+            display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; 
+        }
+        #container>div{
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px;
+        }
+        img{
+            width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px;
+        }
+        h3+img{
+            width: 40%; margin-left: 30%; margin-top: -5%;
+        }
+        h1{
+            font-family: 'Open Sans', sans-serif; font-size: 20px; text-align: center; margin-bottom: 0px; font-weight: 600;
+        }
+        h3{
+            font-family: 'Open Sans', sans-serif; font-size: 16px; text-align: center; margin-top: 0px; font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+</body>
+</html>
+
+<script>
+    var investorsData = JSON.parse(localStorage.getItem("investorsData"));
+
+    investorsData.forEach(function(el){
+        let name = document.createElement("h1");
+        name.innerText = el.investorName;
+
+        let image = document.createElement("img");
+        image.setAttribute("src",el.investorImg);
+
+        let logo = document.createElement("img");
+        logo.setAttribute("src",el.investorLogo);
+
+        let role = document.createElement("h3");
+        role.innerText = el.investorRole;
+
+        let div = document.createElement("div");
+        div.append(image,name,role,logo);
+    
+        let main_div = document.getElementById("container");
+        main_div.append(div);
+    });
+
+</script>
