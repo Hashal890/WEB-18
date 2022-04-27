@@ -504,7 +504,9 @@
     },
   ];
 
-    womensData.forEach(function(el){
+  let cartArr = JSON.parse(localStorage.getItem("cartData")) || [];
+
+  womensData.forEach(function(el){
       let image = document.createElement("img");
       image.setAttribute("src",el.image_url);
 
@@ -518,9 +520,14 @@
       strikePrice.innerText = el.strikedoffprice;
 
       let button = document.createElement("button");
-      button.innerText = "Add to Cart";
+      button.innerText = "Add to Cart 🛒";
       button.addEventListener("click",function(){
-        
+        let cartObj = { image : image.src,
+                        name : name.innerText,
+                        price : price.innerText,
+                        strikePrice : strikePrice.innerText };
+        cartArr.push(cartObj);
+        localStorage.setItem("cartData",JSON.stringify(cartArr));
       });
 
       let div = document.createElement("div");

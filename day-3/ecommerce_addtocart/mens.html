@@ -301,7 +301,9 @@
     },
   ];
 
-    mensData.forEach(function(el){
+  let cartArr = JSON.parse(localStorage.getItem("cartData")) || [];
+
+  mensData.forEach(function(el){
       let image = document.createElement("img");
       image.setAttribute("src",el.image_url);
 
@@ -315,17 +317,25 @@
       strikePrice.innerText = el.strikedoffprice;
 
       let button = document.createElement("button");
-      button.innerText = "Add to Cart";
-      button.addEventListener("click",function(){
-        
-      });
-
+      button.innerText = "Add to Cart 🛒";
+      
       let div = document.createElement("div");
       div.append(image,name,price,strikePrice,button);
-
+      
       let main_div = document.querySelector("#container");
       main_div.append(div);
+
+      
+      button.addEventListener("click",function(){
+        let cartObj = { image : image.src,
+                        name : name.innerText,
+                        price : price.innerText,
+                        strikePrice : strikePrice.innerText };
+        cartArr.push(cartObj);
+        localStorage.setItem("cartData",JSON.stringify(cartArr));
+      });
     });
+
 
 
 </script>
