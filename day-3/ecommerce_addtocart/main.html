@@ -4,32 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Navbar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <style>
-        div{
-            background-color: teal; display: flex; justify-content: space-evenly;
+        #navbar{
+            display: flex; background-color: rgb(28,40,54); justify-content: space-between; text-align: center; position: relative; position: fixed; width: 100%; margin-top: -0.5%; margin-left: -0.5%;
         }
-        h1{
-            font-family: 'Poppins', sans-serif;
+        #navbar>div{
+            margin-left: 2%; margin-right: 7%;
         }
-        a{
-            text-decoration: none; color: white;
+        #navbar>div+div{
+            margin-left: 0px; margin-right: 5%; display: flex; column-gap: 50px;
         }
-        a:hover{
+        #navbar h1{
+            font-family: 'Poppins', sans-serif; text-align: center; color: white; font-size: 20px;
+        }
+        #navbar a{
+            color: white; text-decoration: none;
+        }
+        #navbar a:hover{
             color: gold;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1><a href="mens.html">Men</a></h1>
-        <h1><a href="womens.html">Women</a></h1>
-        <h1><a href="cart.html">Added cart</a></h1>
+    <div id="navbar">
+        <div>
+            <h1><a href="main.html">Home</a></h1>
+        </div>
+        <div>
+            <div><h1><a href="mens.html">Men</a></h1></div>
+            <div><h1><a href="womens.html">Women</a></h1></div>
+            <div><h1><a href="cart.html">Cart</a></h1></div>
+            <div><h1><a href="login.html">Login</a></h1></div>
+            <div><h1><a href="signup.html">Signup</a></h1></div>
+        </div>
     </div>
 </body>
 </html>
