@@ -1,0 +1,21 @@
+body{
+    margin: 0;
+}
+#navbar{
+    display: flex; background-color: rgb(28,40,54); justify-content: space-between; text-align: center; position: sticky; width: 100%; top: 0;
+}
+#navbar>div{
+    margin-left: 2%; margin-right: 7%;
+}
+#navbar>div+div{
+    margin-left: 0px; margin-right: 5%; display: flex; column-gap: 50px;
+}
+#navbar h1{
+    font-family: 'Poppins', sans-serif; text-align: center; color: white; font-size: 20px;
+}
+#navbar a{
+    color: white; text-decoration: none;
+}
+#navbar a:hover{
+    color: gold;
+}

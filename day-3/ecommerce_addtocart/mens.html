@@ -10,24 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="navbar.css">
+
     <style>
-      #navbar{
-        display: flex; background-color: rgb(28,40,54); justify-content: space-between; text-align: center; position: relative; position: fixed; width: 100%; margin-top: -1.5%; margin-left: -0.5%;
-      }
-      #navbar>div{
-        margin-left: 2%; margin-right: 7%;
-      }
-      #navbar>div+div{
-        margin-left: 0px; margin-right: 5%; display: flex; column-gap: 50px;
-      }
-      #navbar h1{
-        font-family: 'Poppins', sans-serif; text-align: center; color: white; font-size: 20px;
-      }
-      #navbar a{
-        color: white; text-decoration: none;
-      }
-      #navbar a:hover{
-        color: gold;
+      #select{
+        margin-top: 2%; width: 15%; margin-bottom: 2%; font-family: 'Poppins', sans-serif; background-color: teal; color: white; font-size: 20px; border-radius: 10px; border: 2px solid red; cursor: pointer; margin-left: 45%;
       }
       h1{
         font-family: 'Poppins', sans-serif; text-align: center;
@@ -58,18 +45,27 @@
 <body>
   <div id="navbar">
     <div>
-        <h1><a href="main.html">Home</a></h1>
+        <h1><a href="index.html">Home</a></h1>
     </div>
     <div>
         <div><h1><a href="mens.html">Men</a></h1></div>
         <div><h1><a href="womens.html">Women</a></h1></div>
-        <div><h1><a href="cart.html">Cart</a></h1></div>
+        <div><h1><a href="cart.html">Cart 🛒</a></h1></div>
         <div><h1><a href="login.html">Login</a></h1></div>
         <div><h1><a href="signup.html">Signup</a></h1></div>
     </div>
   </div>
 
-    <h1>Mens Page</h1>
+  <select id="select">
+    <option value="none">Select a category</option>
+    <option value="Casual">Casual</option>
+    <option value="Festive">Festive</option>
+    <option value="Party">Party</option>
+    <option value="Formal">Formal</option>
+    <option value="Travel">Travel</option>
+    <option value="Workout">Workout</option>
+  </select>
+  
     <div id="container">
 
     </div>
@@ -77,13 +73,16 @@
 </html>
 <!-- image_url,name,price,strikedoffprice -->
 <script>
+  let loginSuccessful = JSON.parse(localStorage.getItem("loginSuccessful"));
+  if(loginSuccessful!=true) window.location.href="login.html";
+
     var mensData = [
     {
       image_url:
         "https://content.shop4reebok.com/static/Product-EX4296/reebok_EX4296_1.jpg.plp",
       name: "MEN'S REEBOK RUNNING ROADMAP SHOES",
-      price: "1170",
-      strikedoffprice: "$2599",
+      price: 1170,
+      strikedoffprice: 2599,
     },
     {
       image_url:
@@ -332,41 +331,82 @@
     },
   ];
 
+
+  mensData.forEach(function(el,index){
+    el.id = "M"+index;
+    if(index%2==0) el.category="Casual";
+    else if(index%7==0) el.category="Festive";
+    else if(index%11==0) el.category="Party";
+    else if(index%13==0) el.category="Formal";
+    else if(index%5==0) el.category="Travel";
+    else el.category="Workout";
+  });
+
+  // console.log(mensData);
+  localStorage.setItem("mensData",JSON.stringify(mensData));
+
   let cartArr = JSON.parse(localStorage.getItem("cartData")) || [];
+  
+  let main_div = document.querySelector("#container");
 
-  mensData.forEach(function(el){
-      let image = document.createElement("img");
-      image.setAttribute("src",el.image_url);
+  function display(data){
+      main_div.innerHTML = "";
 
-      let name = document.createElement("h4");
-      name.innerText = el.name;
+      data.forEach(function(el){
 
-      let price = document.createElement("h4");
-      price.innerText = el.price;
 
-      let strikePrice = document.createElement("h4");
-      strikePrice.innerText = el.strikedoffprice;
+        let image = document.createElement("img");
+        image.setAttribute("src",el.image_url);
+  
+        let name = document.createElement("h4");
+        name.innerText = el.name;
+  
+        let price = document.createElement("h4");
+        price.innerText = el.price;
+  
+        let strikePrice = document.createElement("h4");
+        strikePrice.innerText = el.strikedoffprice;
+        
+        let category = document.createElement("h4");
+        category.innerText = el.category;
+        
+        let button = document.createElement("button");
+        button.innerText = "Add to Cart 🛒";
+        button.addEventListener("click",function(){
+          addToCart(el);
+        });
+        
+        let div = document.createElement("div");
+        div.append(image,name,price,strikePrice,button);
+  
+        main_div.append(div);
 
-      let button = document.createElement("button");
-      button.innerText = "Add to Cart 🛒";
-      
-      let div = document.createElement("div");
-      div.append(image,name,price,strikePrice,button);
-      
-      let main_div = document.querySelector("#container");
-      main_div.append(div);
-
-      
-      button.addEventListener("click",function(){
-        let cartObj = { image : image.src,
-                        name : name.innerText,
-                        price : price.innerText,
-                        strikePrice : strikePrice.innerText };
-        cartArr.push(cartObj);
-        localStorage.setItem("cartData",JSON.stringify(cartArr));
       });
-    });
 
+    };
+    
+  display(mensData);
+  
+
+  let mensProducts = document.querySelector("#container");
+  let filter = document.querySelector("select");
+  filter.addEventListener("change",function(){
+    if(filter.value=="none") display(mensData);
+    else{
+      let filteredData = mensData.filter(function(el){
+        // console.log(el.category,filter.value);
+        return el.category==filter.value;
+      });
+      display(filteredData);
+      // console.log(filteredData);
+    }
+  });
+
+  function addToCart(el){
+    cartArr.push(el);
+    localStorage.setItem("cartData",JSON.stringify(cartArr));
+    alert(`${el.name} successfully added!`);
+  }
 
 
 </script>

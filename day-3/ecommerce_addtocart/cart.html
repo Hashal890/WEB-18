@@ -10,25 +10,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="navbar.css">
+
     <style>
         #navbar{
-            display: flex; background-color: rgb(28,40,54); justify-content: space-between; text-align: center; position: relative; position: fixed; width: 100%; margin-top: -1.5%; margin-left: -0.5%;
+            margin-top: 0%; 
         }
-        #navbar>div{
-            margin-left: 2%; margin-right: 7%;
+        #navbar+div{
+            display: flex; justify-content: space-evenly; margin-top: 1%; margin-bottom: 1%;
         }
-        #navbar>div+div{
-            margin-left: 0px; margin-right: 5%; display: flex; column-gap: 50px;
+        #navbar+div>input{
+            width: 15%; font-family: 'Poppins', sans-serif; background-color: teal; color: white; font-size: 20px; border-radius: 10px; border: 2px solid red; text-align: center;
         }
-        #navbar h1{
-            font-family: 'Poppins', sans-serif; text-align: center; color: white; font-size: 20px;
+        #navbar+div>input::placeholder{
+            color: white; text-align: center;
         }
-        #navbar a{
-            color: white; text-decoration: none;
-        }
-        #navbar a:hover{
-            color: gold;
-      }
         h1{
           font-family: 'Poppins', sans-serif; text-align: center;
         }
@@ -39,7 +35,7 @@
             font-family: 'Open Sans', sans-serif; margin-top: 0px;
         }
         #container{
-            display: grid; grid-template-columns: repeat(4,1fr); gap: 20px;
+            display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; 
         }
         #container>div{
             box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; padding: 5%;
@@ -59,26 +55,39 @@
         button:hover{
             background-color: teal; color: white;
         }
+        #navbar+div>button{
+            background-color: teal; cursor: pointer; color: white; font-family: 'Open Sans', sans-serif; border: 2px solid red; border-radius: 10px; font-weight: 600; font-size: 18px; padding: 1%;
+        }
+        #navbar+div>button:hover{
+            background-color: red; color: yellow; border: 2px solid black;
+        }
+        a{
+            text-decoration: none; color: white; font-family: 'Open Sans', sans-serif;
+        }
     </style>
 </head>
 <body>
     <div id="navbar">
         <div>
-            <h1><a href="main.html">Home</a></h1>
+            <h1><a href="index.html">Home</a></h1>
         </div>
         <div>
             <div><h1><a href="mens.html">Men</a></h1></div>
             <div><h1><a href="womens.html">Women</a></h1></div>
-            <div><h1><a href="cart.html">Cart</a></h1></div>
+            <div><h1><a href="cart.html">Cart 🛒</a></h1></div>
             <div><h1><a href="login.html">Login</a></h1></div>
             <div><h1><a href="signup.html">Signup</a></h1></div>
         </div>
     </div>
-    <h1>My Cart</h1>
+
     <div>
         <h2></h2>
+        <input type="text" placeholder="Enter Promo Key" id="promo">
+        <button id="applyPromo">Apply</button>
         <h2></h2>
+        <button><a href="payment.html">Payment 💳</a></button>
     </div>
+
     <div id="container">
         
     </div>
@@ -86,42 +95,88 @@
 </html>
 
 <script>
-    let cartData = JSON.parse(localStorage.getItem("cartData"));
+    let loginSuccessful = JSON.parse(localStorage.getItem("loginSuccessful"));
+    if(loginSuccessful!=true) window.location.href="login.html";
 
-    cartData.forEach(function(el,index){
-        let image = document.createElement("img");
-        image.setAttribute("src",el.image);
+    let cartData = JSON.parse(localStorage.getItem("cartData")) || [];
 
-        let name = document.createElement("h4");
-        name.innerText = el.name;
+    let main_div = document.querySelector("#container");
+    
+    function display(data){
+        main_div.innerHTML = "";
+        
+        let promo = document.querySelector("#promo");
+        let total = 0;
 
-        let price = document.createElement("h4");
-        price.innerText = el.price;
+        data.forEach(function(el){
+            let image = document.createElement("img");
+            image.setAttribute("src",el.image_url);
+            
+            let name = document.createElement("h4");
+            name.innerText = el.name;
+            
+            let price = document.createElement("h4");
+            price.innerText = el.price;
 
-        let strikePrice = document.createElement("h4");
-        strikePrice.innerText = el.strikePrice;
+            let numberOfItems = document.querySelector("h2");
+            numberOfItems.innerText = "Numbers of items :- "+cartData.length;
+        
+            // let prevPrice = el.price;
 
-        let button = document.createElement("button");
-        button.innerText = "DELETE";
-        button.addEventListener("click",function(){
-            div.remove();
-            cartData.splice(index,1);
-            localStorage.setItem("cartData",JSON.stringify(cartData));
+            let totalPrice = document.querySelector("button+h2");
+            total = total + el.price;
+            totalPrice.innerText = "Total cost :- "+(total);
+            // console.log(totalPrice.innerText);
+            
+            let strikePrice = document.createElement("h4");
+            strikePrice.innerText = el.strikedoffprice;
+            
+            let category = document.createElement("h4");
+            category.innerText = el.category;
+            
+            let button = document.createElement("button");
+            button.innerText = "DELETE";
+            button.addEventListener("click",function(){
+                delteData(el.id);
+                // console.log(el.id);
+            });
+            
+            
+            let div = document.createElement("div");
+            div.append(image,name,price,strikePrice,button);
+            
+            
+            main_div.append(div);
+        });
+        
+        
+        localStorage.setItem("totalPrice",total);
+    };
+    
+    display(cartData);
+    
+    // Don't use unnecessary functions in loop. When got an error check console.
+    
+    let applyPromo = document.querySelector("input+button");
+    applyPromo.addEventListener("click",function(){
+        let val = localStorage.getItem("totalPrice");
+        let totalPrice = document.querySelector("button+h2");
+
+        if(promo.value=="masai30"){
+            val = val - ((30*val)/100);
+            totalPrice.innerText = "Total cost :- "+(val);
+        }
+    });
+
+    function delteData(id){
+        cartData = cartData.filter(function(el){
+            // By using filter we can delete data from our localstorage & stoed data also.
+            return el.id != id;
         });
 
-        let div = document.createElement("div");
-        div.append(image,name,price,strikePrice,button);
+        display(cartData);
+        // console.log(id);
+        localStorage.setItem("cartData",JSON.stringify(cartData));
+    }
 
-        let main_div = document.querySelector("#container");
-        main_div.append(div);
-        
-        
-        let totalCount = document.querySelector("div>h2:first-child");
-        totalCount.innerText = "Total cards are";
-
-        let totalPrice = document.querySelector("div>h2+h2");
-        totalPrice.innerText = "Total price is";
-
-    });
-    
 </script>
