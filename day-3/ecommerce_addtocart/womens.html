@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="navbar.css">
     
     <style>
-      #select{
-        margin-top: 2%; width: 15%; margin-bottom: 2%; font-family: 'Poppins', sans-serif; background-color: teal; color: white; font-size: 20px; border-radius: 10px; border: 2px solid red; cursor: pointer; margin-left: 45%;
+      #sortAndFilter{
+        display: flex; justify-content: space-between; margin: auto; margin-top: 2%; margin-bottom: 2%; width: 60%;
+      }
+      #sortprice,#sortnames,#select{
+        font-family: 'Poppins', sans-serif; background-color: teal; color: white; font-size: 20px; border-radius: 10px; border: 2px solid red; cursor: pointer; 
       }
       h1{
         font-family: 'Poppins', sans-serif; text-align: center;
@@ -56,15 +59,32 @@
     </div>
   </div>
 
-  <select id="select">
-    <option value="none">Select a category</option>
-    <option value="Casual">Casual</option>
-    <option value="Festive">Festive</option>
-    <option value="Party">Party</option>
-    <option value="Formal">Formal</option>
-    <option value="Travel">Travel</option>
-    <option value="Workout">Workout</option>
-  </select>
+  <div id="sortAndFilter">
+
+    <select id="sortprice">
+      <option value="none">Select price order</option>
+      <option value="HTL">High to Low</option>
+      <option value="LTH">Low to High</option>
+    </select>
+  
+    <select id="sortnames">
+      <option value="none">Select names order</option>
+      <option value="ASC">Ascending</option>
+      <option value="DSC">Descending</option>
+    </select>
+  
+    <select id="select">
+      <option value="none">Select a category</option>
+      <option value="Casual">Casual</option>
+      <option value="Festive">Festive</option>
+      <option value="Party">Party</option>
+      <option value="Formal">Formal</option>
+      <option value="Travel">Travel</option>
+      <option value="Workout">Workout</option>
+    </select>
+
+  </div>
+
     <div id="container">
 
     </div>
@@ -589,8 +609,9 @@
   display(womensData);
   
 
-  let mensProducts = document.querySelector("#container");
-  let filter = document.querySelector("select");
+  let womensProducts = document.querySelector("#container");
+
+  let filter = document.querySelector("#select");
   filter.addEventListener("change",function(){
     if(filter.value=="none") display(womensData);
     else{
@@ -600,6 +621,46 @@
       });
       display(filteredData);
       // console.log(filteredData);
+    }
+  });
+
+  let filterPrice = document.querySelector("#sortprice");
+  filterPrice.addEventListener("change",function(){
+    if(filterPrice.value=="none") display(womensData);
+    else if(filterPrice.value=="HTL"){
+      womensData.sort(function(a,b){
+        return b.price - a.price;
+      });
+      display(womensData);
+    }else{
+      womensData.sort(function(a,b){
+        return a.price - b.price;
+      });
+      display(womensData);
+    }
+  });
+
+  let filterNames = document.querySelector("#sortnames");
+  filterNames.addEventListener("change",function(){
+    if(filterNames.value=="none") display(womensData);
+    else if(filterNames.value=="DSC"){
+      let x = a.name.toUpperCase;
+      let y = b.name.toUpperCase;
+      womensData.sort(function(a,b){
+        if(x>y) return -1;
+        else if(x<y) return 1;
+        return 0;
+      });
+      display(womensData);
+    }else{
+      let x = a.name.toUpperCase;
+      let y = b.name.toUpperCase;
+      womensData.sort(function(a,b){
+        if(x>y) return 1;
+        else if(x<y) return -1;
+        return 0;
+      });
+      display(womensData);
     }
   });
 
